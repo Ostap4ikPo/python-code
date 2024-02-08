@@ -1,0 +1,33 @@
+import asyncio
+
+from loguru import logger
+
+from modules import run_linea_mailer, run_starknet_mailer, run_zk_mailer
+
+start_message = r"""
+
+
+Модули:
+1: отправка сообщений в ZkSync Era.
+2: отправка сообщений в Linea.
+3: отправка сообщений в Starknet.                                   
+"""
+
+
+async def main():
+    logger.debug(start_message)
+    module = input("Номер модуля: ")
+    if module == "1":
+        run_zk_mailer()
+    elif module == "2":
+        run_linea_mailer()
+    elif module == "3":
+        await run_starknet_mailer()
+    else:
+        logger.error("Выбран неверный модуль.")
+        exit()
+
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
